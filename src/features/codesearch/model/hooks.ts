@@ -1,8 +1,8 @@
 import { useAppDispatch, useAppSelector } from 'shared/hooks';
-import { changeLanguage, changeSearch } from './store';
+import { changeLanguage, changeSearch, resetState } from './store';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
-import { searchFn } from './thunk';
+import { abortSearchRequest, searchFn } from './thunk';
 
 export const useSearchForm = () => {
   const dispatch = useAppDispatch();
@@ -63,9 +63,15 @@ export const useSearchResult = () => {
     if (query && language) {
       dispatch(searchFn());
     }
+    return abortSearchRequest;
   }, [dispatch, query, language]);
 
-  useEffect(() => () => console.log('unmount'));
+  useEffect(
+    () => () => {
+      dispatch(resetState());
+    },
+    [dispatch]
+  );
 
   const repeatSearch = () => {
     dispatch(searchFn());

@@ -28,6 +28,7 @@ const searchSlice = createSlice({
     changeLanguage: (state, { payload }: PayloadAction<string>) => {
       state.language = payload;
     },
+    resetState: () => initialState,
   },
 
   extraReducers: (builder) => {
@@ -48,6 +49,6 @@ const searchSlice = createSlice({
   },
 });
 
-export const { changeSearch, changeLanguage } = searchSlice.actions;
+export const { changeSearch, changeLanguage, resetState } = searchSlice.actions;
 
 export const { reducer: searchReducer } = searchSlice;

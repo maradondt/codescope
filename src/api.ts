@@ -6,23 +6,46 @@ const octokit = new Octokit({ auth: token });
 
 export class ApiClient {
   private readonly token: string;
+  private abortControllers: Record<string, AbortController> = {};
   constructor(token: string) {
     this.token = token;
   }
 
   async searchCode(query: string, language: string) {
+    const controller = this.getAbortController(this.searchCode);
+
     const response = await octokit.request('GET /search/code', {
       q: `${query}+in:file+language:${language}`,
       headers: {
         accept: 'application/vnd.github.text-match+json',
       },
       per_page: 10,
+      request: {
+        signal: controller.signal,
+      },
     });
     return response.data;
+  }
+
+  abortRequest(method: Function) {
+    const requestName = this.getMethodName(method);
+    this.abortControllers[requestName]?.abort();
+    delete this.abortControllers[requestName];
+  }
+
+  private getAbortController(method: Function) {
+    const requestName = this.getMethodName(method);
+    const controller = new AbortController();
+    this.abortControllers[requestName] = controller;
+    return controller;
+  }
+
+  private getMethodName(method: Function) {
+    return method.name;
   }
 }
 
 export type SearchResult = Awaited<ReturnType<ApiClient['searchCode']>>;
+export type ApiError = RequestError;
 
 export const apiClient = new ApiClient(token);
-export type ApiError = RequestError;
