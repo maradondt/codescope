@@ -1,7 +1,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
-import { useSearchForm } from './model';
-import { LANGUAGES } from './model';
+import { useSearchForm } from '../model';
+import { LANGUAGES } from '../model';
 
 export const SearchCodeInput = () => {
   const { onSearch, isBtnDisabled, languageValue, onChangeLanguage, onChangeSearch, searchValue } = useSearchForm();

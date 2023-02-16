@@ -2,7 +2,7 @@ import Alert from '@mui/material/Alert';
 // import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import { ContentLoader, SearchResultItem } from 'shared/components';
-import { useSearchResult } from './model';
+import { useSearchResult } from '../model';
 
 import Grid from '@mui/material/Grid';
 import { SearchCodeInput } from './SearchCodeInput';

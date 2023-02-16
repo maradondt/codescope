@@ -1,13 +1,16 @@
+import { useEffect, useMemo } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'shared/hooks';
 import { changeLanguage, changeSearch, resetState } from './store';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
 import { abortSearchRequest, searchFn } from './thunk';
 
 export const useSearchForm = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const searchValue = useAppSelector((s) => s.search.search);
   const languageValue = useAppSelector((s) => s.search.language);
+  const error = useAppSelector((s) => s.search.error);
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     dispatch(changeSearch(e.target.value));
   };
@@ -16,14 +19,18 @@ export const useSearchForm = () => {
     value && dispatch(changeLanguage(value));
   };
 
-  const navigate = useNavigate();
-
   const onSearch: React.FormEventHandler = (e) => {
     e.preventDefault();
+
     navigate({
       pathname: '/search',
       search: new URLSearchParams({ query: searchValue, language: languageValue }).toString(),
     });
+
+    if (!!error) {
+      // in case when we already on current page and got an error
+      dispatch(searchFn());
+    }
   };
 
   const isBtnDisabled = !searchValue || !languageValue;
