@@ -1,4 +1,4 @@
-import { AppRoutes } from '../pages';
+import { AppRoutes } from 'pages';
 import { withProviders } from './providers';
 
 function App() {
