@@ -46,6 +46,7 @@ export class ApiClient {
 }
 
 export type SearchResult = Awaited<ReturnType<ApiClient['searchCode']>>;
+export type CodeItem = SearchResult['items'][0]
 export type ApiError = RequestError;
 
 export const apiClient = new ApiClient(token);

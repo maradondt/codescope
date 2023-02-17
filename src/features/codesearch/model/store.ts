@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SearchResult } from 'api';
 import { searchFn } from './thunk';
+import { RootState } from 'app/store';
 
 type State = {
   result: SearchResult | null;
@@ -48,6 +49,9 @@ const searchSlice = createSlice({
     });
   },
 });
+
+export const getSelectItem = (url: string) => (s: RootState) =>
+  s.search.result?.items.find(({ html_url }) => url === html_url);
 
 export const { changeSearch, changeLanguage, resetState } = searchSlice.actions;
 

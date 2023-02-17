@@ -5,12 +5,11 @@ import { ContentLoader, SearchResultItem } from 'shared/components';
 import { useSearchResult } from '../model';
 
 import Grid from '@mui/material/Grid';
+import { SaveButton } from 'features/saveItems';
 import { SearchCodeInput } from './SearchCodeInput';
 
 export const SearchResult = () => {
   const { error, isLoading, result, isEmptyRequest, isEmptyResult, language } = useSearchResult();
-
-  // const pages = result?.total_count && result?.total_count / 10;
 
   return (
     <ContentLoader isLoading={isLoading}>
@@ -24,13 +23,14 @@ export const SearchResult = () => {
         {result?.items.map((item) => (
           <Grid key={item.html_url} item xs={12} md={6}>
             <SearchResultItem
-              lang={language || 'js'}
+              lang={language}
               repositoryName={item.repository.name}
               userAvatar={item.repository.owner.avatar_url}
               filePath={item.path}
               text_matches={item.text_matches}
               href={item.html_url}
               userLogin={item.repository.owner.login}
+              action={<SaveButton lang={language} url={item.html_url} />}
             />
           </Grid>
         ))}

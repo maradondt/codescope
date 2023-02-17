@@ -1,5 +1,9 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { Autocomplete, IconButton, Stack, TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
+import IconButton from '@mui/material/IconButton';
+
 import { useSearchForm } from '../model';
 import { LANGUAGES } from '../model';
 

@@ -52,7 +52,7 @@ export const useSearchResult = () => {
   const error = useAppSelector((s) => s.search.error);
   const location = useLocation();
   const query = useMemo(() => new URLSearchParams(location.search).get('query'), [location.search]);
-  const language = useMemo(() => new URLSearchParams(location.search).get('language'), [location.search]);
+  const language = useMemo(() => new URLSearchParams(location.search).get('language') ?? 'js', [location.search]);
 
   const isEmptyRequest = !query || !language;
   const isEmptyResult = !isEmptyRequest && !result?.total_count && !error && !isLoading;

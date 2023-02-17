@@ -4,9 +4,10 @@ import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { sliceString } from 'shared/utils';
 
 type Props = {
   text_matches?: Array<{ fragment?: string }>;
@@ -16,6 +17,7 @@ type Props = {
   filePath?: string;
   href?: string;
   lang: string;
+  action?: ReactNode;
 };
 
 export const SearchResultItem: FC<Props> = ({
@@ -26,18 +28,26 @@ export const SearchResultItem: FC<Props> = ({
   text_matches,
   href,
   lang,
+  action,
 }) => {
   return (
     <Card variant="outlined">
       <CardHeader
         avatar={<Avatar src={userAvatar} />}
-        component={Link}
-        target="_blank"
-        href={href}
-        onClick={console.log}
-        sx={{ cursor: 'pointer' }}
-        subheader={path}
-        title={`${userLogin}/${repositoryName}`}
+        titleTypographyProps={{
+          component: Link,
+          target: '_blank',
+          href: href,
+        }}
+        subheaderTypographyProps={{
+          component: Link,
+          target: '_blank',
+          href: href,
+        }}
+        sx={{ cursor: 'pointer', maxWidth: '100%' }}
+        title={sliceString(`${userLogin}/${repositoryName}`, 40)}
+        subheader={sliceString(path, 40)}
+        action={action}
       />
       <Divider />
 
