@@ -2,6 +2,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 
 import { useSearchForm } from '../model';
@@ -18,9 +19,7 @@ export const SearchCodeInput = () => {
       }}
       component="form"
       onSubmit={onSearch}
-      direction="row"
-      justifyContent={'center'}
-      alignItems={'center'}
+      direction={{ xs: 'column', md: 'row' }}
     >
       <TextField
         sx={{
@@ -41,12 +40,14 @@ export const SearchCodeInput = () => {
         options={LANGUAGES}
         value={languageValue}
         onChange={onChangeLanguage}
-        sx={{ width: 200 }}
+        sx={{ minWidth: 200, flexGrow: 1 }}
         renderInput={(params) => <TextField {...params} size="small" label="Extension" placeholder="js" />}
       />
-      <IconButton disabled={isBtnDisabled} type="submit" color="primary">
-        <SearchIcon />
-      </IconButton>
+      <Box display="flex" justifyContent={'center'}>
+        <IconButton sx={{ flexGrow: 0 }} disabled={isBtnDisabled} type="submit" color="primary">
+          <SearchIcon />
+        </IconButton>
+      </Box>
     </Stack>
   );
 };

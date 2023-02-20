@@ -43,10 +43,10 @@ const themeMap = {
   dark: darkTheme,
 };
 
-export const useCurrentTheme = () => {
+export const useAppTheme = () => {
   const selectedTheme = useAppSelector((s) => s.theme.theme);
   const systemTheme = useThemeDetector();
   const currentTheme = selectedTheme === 'system' ? systemTheme : selectedTheme;
 
-  return themeMap[currentTheme];
+  return { theme: themeMap[currentTheme], isLight: currentTheme === 'light', isDark: currentTheme === 'dark' };
 };

@@ -1,9 +1,9 @@
 import { Theme, ThemeProvider } from '@mui/material/styles';
 import { Suspense } from 'react';
-import { useCurrentTheme } from 'features/theme';
+import { useAppTheme } from 'features/theme';
 
 const GetTheme = ({ children }: { children: (theme: Theme) => React.ReactNode }) => {
-  const theme = useCurrentTheme();
+  const { theme } = useAppTheme();
   return <>{children(theme)}</>;
 };
 

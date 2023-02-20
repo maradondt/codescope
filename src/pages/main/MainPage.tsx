@@ -1,51 +1,88 @@
-import { Box, Stack, Typography } from '@mui/material';
-import { blueGrey } from '@mui/material/colors';
+import { styled } from '@mui/material';
+import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { SearchCodeInput } from 'features/codesearch';
+import { useAppTheme } from 'features/theme';
 
+const Logo = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
+  '.highlight': {
+    color: theme.palette.primary.main,
+  },
+}));
 export const MainPage = () => {
+  const { theme } = useAppTheme();
+
   return (
     <Box
       display="flex"
       height="100vh"
-      bgcolor={blueGrey[50]}
+      bgcolor={theme.palette.background.default}
       width="100%"
       justifyContent={'center'}
       alignItems={'center'}
     >
-      <Stack spacing={2}>
+      <Stack
+        sx={{
+          maxWidth: { xs: 300, md: 500 },
+        }}
+        spacing={2}
+      >
         <Stack>
-          <Typography
+          <Logo
             sx={{
               fontWeight: 600,
-              fontSize: '3rem',
+              fontSize: { xs: '3rem', md: '5rem' },
             }}
             variant="h1"
           >
-            CodeScope
+            Code<span className="highlight">Scope</span>
+          </Logo>
+          <Typography
+            sx={{
+              fontWeight: 300,
+              color: 'text.secondary',
+              mb: 4,
+              fontSize: { xs: '1rem', md: '1.5rem' },
+            }}
+            variant="caption"
+          >
+            CodeScope is a powerful search tool that allows you to quickly and easily find code examples on GitHub
           </Typography>
           <Typography
             sx={{
               fontWeight: 600,
-              fontSize: '1rem',
               color: 'text.secondary',
+              fontSize: { xs: '1rem', md: '1.5rem' },
             }}
-            variant="subtitle2"
+            align="center"
+            variant="subtitle1"
           >
             Discover Code Faster
           </Typography>
         </Stack>
-        <SearchCodeInput />
-
-        {/* <Typography
-          sx={{
-            maxWidth: '50%',
-          }}
-          variant="body2"
-        >
-          CodeScope is a powerful search tool that allows you to quickly and easily find code examples on GitHub. Simply
-          enter your search term and let CodeScope do the rest. With CodeScope, you can discover new code and accelerate
-          your development process.
-        </Typography> */}
+        <Box pb={6}>
+          <SearchCodeInput />
+        </Box>
+        <div>
+          <Typography
+            sx={{
+              color: 'text.primary',
+            }}
+            variant="body1"
+          >
+            Simply enter your search term and let CodeScope do the rest
+          </Typography>
+          <Typography
+            sx={{
+              color: 'text.primary',
+            }}
+            variant="caption"
+          >
+            With CodeScope you can discover new code and accelerate your development process
+          </Typography>
+        </div>
       </Stack>
     </Box>
   );
