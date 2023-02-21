@@ -1,20 +1,21 @@
 import { Octokit } from '@octokit/core';
 import { RequestError } from '@octokit/request-error';
+import { config } from 'shared/config';
 
-const token = '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';
-const octokit = new Octokit({ auth: token });
+// const token = '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';
+// const octokit = new Octokit({ auth: token });
 
 export class ApiClient {
-  private readonly token: string;
+  private readonly octokit: Octokit;
   private abortControllers: Record<string, AbortController> = {};
   constructor(token: string) {
-    this.token = token;
+    this.octokit = new Octokit({ auth: token });
   }
 
   async searchCode(query: string, language: string) {
     const controller = this.getAbortController(this.searchCode);
 
-    const response = await octokit.request('GET /search/code', {
+    const response = await this.octokit.request('GET /search/code', {
       q: `${query}+in:file+language:${language}`,
       headers: {
         accept: 'application/vnd.github.text-match+json',
@@ -46,7 +47,7 @@ export class ApiClient {
 }
 
 export type SearchResult = Awaited<ReturnType<ApiClient['searchCode']>>;
-export type CodeItem = SearchResult['items'][0]
+export type CodeItem = SearchResult['items'][0];
 export type ApiError = RequestError;
 
-export const apiClient = new ApiClient(token);
+export const apiClient = new ApiClient(config.authToken);
